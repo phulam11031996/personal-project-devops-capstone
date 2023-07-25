@@ -1,5 +1,5 @@
 name: CI Build
-run-name: ${{ github.actor }} is testing out GitHub Actions 🚀
+run-name: 🚀 ${{ github.actor }} is testing out GitHub Actions 
 on:
   push:
     branches:
@@ -9,6 +9,7 @@ on:
       - "main"
 jobs:
   build:
+    name: 🐧 Initiallize containers
     runs-on: ubuntu-latest
     container: python:3.9-slim
 
