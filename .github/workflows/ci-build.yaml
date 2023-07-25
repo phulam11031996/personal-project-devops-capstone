@@ -1,5 +1,4 @@
 name: CI Build
-run-name: ${{ github.actor }} is testing out GitHub Actions
 on:
   push:
     branches:
@@ -11,6 +10,7 @@ jobs:
   build:
     runs-on: ubuntu-latest
     container: python:3.9-slim
+
     services:
       postgres:
         image: postgres:alpine
