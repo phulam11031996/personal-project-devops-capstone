@@ -175,3 +175,20 @@ class TestAccountService(TestCase):
         self.assertEqual(returned_account["address"], account["address"])
         self.assertEqual(returned_account["phone_number"], account["phone_number"])
         self.assertEqual(returned_account["date_joined"], account["date_joined"])
+
+    def test_delete_account(self):
+        """It should delete an account with id"""
+        # Create an account to delete
+        account = AccountFactory()
+        resp = self.client.post(BASE_URL, json=account.serialize())
+        self.assertEqual(resp.status_code, status.HTTP_201_CREATED)
+
+        # Updates an account
+        account = resp.get_json()
+        # Delete an account that exist
+        resp = self.client.delete(BASE_URL + "/" + str(account["id"]))
+        self.assertEqual(resp.status_code, status.HTTP_204_NO_CONTENT)
+
+        # Delete an account that doesn't exist
+        resp = self.client.delete(BASE_URL + "/" + str(account["id"]))
+        self.assertEqual(resp.status_code, status.HTTP_204_NO_CONTENT)
