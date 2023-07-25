@@ -90,7 +90,9 @@ class TestAccountService(TestCase):
         """It should Create a new Account"""
         account = AccountFactory()
         response = self.client.post(
-            BASE_URL, json=account.serialize(), content_type="application/json"
+            BASE_URL,
+            json=account.serialize(),
+            content_type="application/json"
         )
         self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
@@ -115,7 +117,9 @@ class TestAccountService(TestCase):
         """It should not Create an Account when sending the wrong media type"""
         account = AccountFactory()
         response = self.client.post(
-            BASE_URL, json=account.serialize(), content_type="test/html"
+            BASE_URL,
+            json=account.serialize(),
+            content_type="test/html"
         )
         self.assertEqual(response.status_code, status.HTTP_415_UNSUPPORTED_MEDIA_TYPE)
 
@@ -145,12 +149,8 @@ class TestAccountService(TestCase):
         self.assertEqual(second_account["name"], returned_account["name"])
         self.assertEqual(second_account["email"], returned_account["email"])
         self.assertEqual(second_account["address"], returned_account["address"])
-        self.assertEqual(
-            second_account["phone_number"], returned_account["phone_number"]
-        )
-        self.assertEqual(
-            second_account["date_joined"], str(returned_account["date_joined"])
-        )
+        self.assertEqual(second_account["phone_number"], returned_account["phone_number"])
+        self.assertEqual(second_account["date_joined"], str(returned_account["date_joined"]))
 
         resp = self.client.get(BASE_URL + "/-1")
         returned_account = resp.get_json()
