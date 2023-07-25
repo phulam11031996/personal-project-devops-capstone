@@ -80,17 +80,15 @@ def list_accounts():
 @app.route("/accounts/<int:id>", methods=["GET"])
 def read_account(id):
     """
-    Get an Account with id
+    Read an Account with id
     This endpoint will return an account with id
     """
     app.logger.info("Request to get an Accounts with id")
-    print(id)
     account = Account.find(id)
     if not account:
         abort(status.HTTP_404_NOT_FOUND, f"Account with id [{id}] could not be found.")
 
     account = account.serialize()
-    print(account)
     app.logger.info("Returning account with id [%s]", account["id"])
     return jsonify(account), status.HTTP_200_OK
 
@@ -99,8 +97,21 @@ def read_account(id):
 ######################################################################
 # UPDATE AN EXISTING ACCOUNT
 ######################################################################
+@app.route("/accounts/<int:id>", methods=["PUT"])
+def update_account(id):
+    """
+    Update an Account with id
+    This endpoint will update and return an account with id
+    """
+    app.logger.info("Request to update an Accounts with id")
+    account = Account.find(id)
+    if not account:
+        abort(status.HTTP_404_NOT_FOUND, f"Account with id [{id}] could not be found.")
 
-# ... place you code here to UPDATE an account ...
+    account.deserialize(request.get_json()).update()
+    account = account.serialize()
+    app.logger.info("Updating and returning account with id [%s]", account["id"])
+    return jsonify(account), status.HTTP_200_OK
 
 
 ######################################################################
